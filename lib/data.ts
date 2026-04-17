@@ -80,13 +80,17 @@ If asked something outside this scope, respond:
 export const projects = [
   {
     id: "moneyfest",
+    slug: "moneyfest",
+    featured: true,
     title: "Moneyfest Lending Platform",
     description:
-      "Full-stack fintech app with automated loan lifecycle management, AI receipt verification, ledger reconciliation, and real-time borrower dashboards.",
-    techStack: ["Next.js", "PostgreSQL", "Supabase", "GSAP", "Groq Vision"],
+      "A comprehensive fintech ecosystem for workplace lending, featuring AI-driven audit automation, real-time risk scoring, and automated loan life-cycle management.",
+    techStack: ["Next.js", "PostgreSQL", "Supabase", "Groq Vision", "GSAP"],
+    featuredImage: "/images/projects/moneyfest-hero.png",
   },
   {
     id: "writeright",
+    slug: "writeright",
     title: "WriteRight AI Copilot",
     description:
       "BPO-focused AI writing assistant supporting dual-model LLM selection (Gemini), sentiment analysis, ELI5 simplifier, and rich-text clipboard output.",

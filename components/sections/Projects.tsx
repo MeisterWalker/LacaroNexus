@@ -1,53 +1,64 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { projects } from "../../lib/data";
+import React from "react";
 import { ProjectCard } from "../ui/ProjectCard";
-import { GlitchText } from "../ui/GlitchText";
+import { projects } from "../../lib/data";
 
 export const Projects = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    
-    if (!containerRef.current) return;
-    
-    const ctx = gsap.context(() => {
-      gsap.from(".project-elem", {
-        y: 60,
-        opacity: 0,
-        duration: 1.5,
-        stagger: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 80%",
-        },
-      });
-    }, containerRef);
-    
-    return () => ctx.revert();
-  }, []);
+  const featuredProject = projects.find((p) => p.featured);
+  const regularProjects = projects.filter((p) => !p.featured);
 
   return (
-    <section id="projects" ref={containerRef} className="py-32 relative z-10">
+    <section id="projects" className="py-32 relative z-10 w-full bg-bgPrimary">
       <div className="container mx-auto px-6">
-        <div className="mb-16 project-elem">
-          <h2 className="font-mono text-xs text-accentMint tracking-[0.3em] uppercase mb-4">
-            <GlitchText text="01 // Selected Works" />
+        <div className="max-w-4xl mb-24">
+          <div className="font-mono text-xs text-accentMint tracking-[0.3em] uppercase mb-4">
+            CLASSIFIED_RECORDS
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-textPrimary tracking-tighter mb-8 leading-[0.9]">
+            Development <span className="text-accentMint italic">Protocol</span>
           </h2>
-          <div className="h-[1px] w-24 bg-borderHighlight" />
+          <p className="text-lg text-textMuted max-w-xl leading-relaxed font-light">
+            A log of high-fidelity systems, architectural experiments, and AI
+            integrations deployed into production environments.
+          </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <div key={project.id} className="project-elem h-full">
-              <ProjectCard {...project} index={index + 1} />
+
+        {/* Projects Grid Configuration */}
+        <div className="space-y-12">
+          {/* Hero Featured Slot */}
+          {featuredProject && (
+            <div className="w-full">
+              <ProjectCard
+                key={featuredProject.id}
+                index={0}
+                featured={true}
+                {...featuredProject}
+              />
             </div>
-          ))}
+          )}
+
+          {/* Secondary Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {regularProjects.map((project, idx) => (
+              <ProjectCard 
+                key={project.id} 
+                index={idx + (featuredProject ? 1 : 0)} 
+                {...project} 
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Terminal Status Line */}
+        <div className="mt-24 pt-8 border-t border-border flex items-center justify-between font-mono text-[10px] text-textDim uppercase tracking-widest">
+          <div className="flex items-center gap-4">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-accentMint animate-pulse" />
+            <span>ENCRYPTED_DATA_STREAM_ACTIVE</span>
+          </div>
+          <div className="hidden md:block">
+            LOCATION: CEBU_CITY_PH // SECTOR: DEVELOPMENT_CORE
+          </div>
         </div>
       </div>
     </section>
