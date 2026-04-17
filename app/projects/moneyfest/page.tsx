@@ -37,17 +37,17 @@ export default function MoneyfestPage() {
   }, []);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-bgPrimary text-textPrimary selection:bg-accentMint/30">
-      {/* Cinematic Hero */}
-      <section className="relative h-[90vh] flex items-center overflow-hidden border-b border-border">
+    <div ref={containerRef} className="min-h-screen bg-bgPrimary text-textPrimary selection:bg-accentMint/30 pb-20">
+      {/* Subtle Cinematic Hero */}
+      <section className="relative h-[80vh] flex items-center overflow-hidden border-b border-border">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/projects/moneyfest-hero.png"
-            alt="Moneyfest Interface Mockup"
+            src="/images/projects/moneyfest-overview.png"
+            alt="Moneyfest Overview"
             fill
-            className="object-cover opacity-40 brightness-[0.4]"
+            className="object-cover opacity-20 blur-xl scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-bgPrimary via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-bgPrimary via-transparent to-bgPrimary/50" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
@@ -72,8 +72,8 @@ export default function MoneyfestPage() {
               ))}
             </div>
 
-            <p className="text-xl md:text-2xl text-textMuted max-w-2xl leading-relaxed font-light mb-12">
-              An enterprise-grade lending ecosystem designed to automate the entire loan lifecycle—from AI-driven application auditing to automated repayment scoring.
+            <p className="text-xl md:text-2xl text-textMuted max-w-2xl leading-relaxed font-light mb-12 italic">
+              "Automating financial trust through high-speed Vision-Language Models."
             </p>
 
             <Link href="/#projects" className="group flex items-center gap-4 font-mono text-xs tracking-[0.3em] uppercase transition-all hover:text-accentMint">
@@ -86,148 +86,128 @@ export default function MoneyfestPage() {
         </div>
       </section>
 
-      {/* Technical Overview */}
+      {/* Narrative Section: The AI Integration */}
+      <section className="py-32 reveal-container">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mb-24 reveal-item">
+            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8">
+              The AI <span className="text-accentMint italic">Audit Engine</span>
+            </h2>
+            <p className="text-lg text-textMuted leading-relaxed mb-8">
+              The core innovation of Moneyfest is its **automated proof-of-payment auditing**. Instead of manual review by administrators, I implemented a Vision-Language Model (VLM) pipeline that performs financial verification in under 1.5 seconds.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            <div className="space-y-12 reveal-item">
+              <div>
+                <h4 className="font-mono text-xs text-accentMint uppercase tracking-widest mb-4">// Extraction_Protocol</h4>
+                <p className="text-textMuted leading-relaxed">
+                  Using **Llama-3-70b-Vision via the Groq API**, the system processes uploaded GCash and Maya screenshots. It extracts high-criticality fields such as:
+                </p>
+                <ul className="mt-4 space-y-2 font-mono text-[11px] text-accentMint/70">
+                  <li className="flex gap-2"><span>[+]</span> BANK_REF_NUMBER (Primary Key for Deduplication)</li>
+                  <li className="flex gap-2"><span>[+]</span> TRANSACTION_DATE (Payment Timeliness Check)</li>
+                  <li className="flex gap-2"><span>[+]</span> PAID_AMOUNT (Validation against Installment Due)</li>
+                  <li className="flex gap-2"><span>[+]</span> RECEIVER_IDENTITY (Security Verification)</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-mono text-xs text-accentMint uppercase tracking-widest mb-4">// Verification_Logic</h4>
+                <p className="text-textMuted leading-relaxed">
+                  Once data is extracted, a custom backend logic cross-references the AI output with our **PostgreSQL/Supabase** records. If the amount matches and the reference number is unique, the loan installment is automatically marked as **PAID** and the borrower's credit score is updated in real-time.
+                </p>
+              </div>
+            </div>
+
+            <div className="reveal-item bg-[#060D14] p-8 border border-border rounded-xl font-mono text-[11px] md:text-xs">
+               <div className="flex justify-between items-center mb-6 text-textDim uppercase tracking-tighter">
+                  <span>SYSTEM_PROMPT.md</span>
+                  <span className="text-[9px]">ENCRYPTION_MODE: AES-256</span>
+               </div>
+               <div className="text-accentMint/80 space-y-4">
+                  <p className="text-textPrimary brightness-125"># TASK: Extract payment details from the provided financial receipt.</p>
+                  <p className="opacity-60">
+                    Parse the following image and return ONLY a JSON object: <br />
+                    &#123; <br />
+                    &nbsp;&nbsp; &quot;amount&quot;: number, <br />
+                    &nbsp;&nbsp; &quot;ref_no&quot;: string, <br />
+                    &nbsp;&nbsp; &quot;date&quot;: date_iso, <br />
+                    &nbsp;&nbsp; &quot;is_valid_receipt&quot;: boolean <br />
+                    &#125;
+                  </p>
+                  <div className="h-[1px] bg-border my-6" />
+                  <p className="text-textPrimary brightness-125">// AI_INFERENCE_OUTPUT (Lat: 1.25s)</p>
+                  <p className="text-[#FBBF24]">
+                    &#123; <br />
+                    &nbsp;&nbsp; &quot;amount&quot;: 2500.00, <br />
+                    &nbsp;&nbsp; &quot;ref_no&quot;: &quot;9028-112-9833&quot;, <br />
+                    &nbsp;&nbsp; &quot;date&quot;: &quot;2026-03-20&quot;, <br />
+                    &nbsp;&nbsp; &quot;is_valid_receipt&quot;: true <br />
+                    &#125;
+                  </p>
+                  <p className="text-xs text-green-500 font-bold mt-4 animate-pulse">
+                    &gt; MATCH_FOUND: DB_INSTALLMENT_V3 // STATUS: AUTO_CONFIRMED
+                  </p>
+               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Subtle Contextual Stats */}
+      <section className="py-32 bg-bgSecondary/30 border-y border-border reveal-container">
+         <div className="container mx-auto px-6 text-center">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+               {[
+                  { label: "Audit Latency", val: "1.25s" },
+                  { label: "Data Integrity", val: "100%" },
+                  { label: "AI Model", val: "Llama-V3" },
+                  { label: "Pipeline", val: "Vision-LLM" }
+               ].map((stat, i) => (
+                  <div key={i} className="reveal-item">
+                     <div className="font-mono text-[10px] text-textDim uppercase tracking-widest mb-2">{stat.label}</div>
+                     <div className="text-3xl font-bold text-accentMint tracking-tighter">{stat.val}</div>
+                  </div>
+               ))}
+            </div>
+         </div>
+      </section>
+
+      {/* Architecture Detail */}
       <section className="py-32 reveal-container">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-            <div className="reveal-item">
-              <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-8">
-                The <span className="text-accentMint italic">Protocol</span>
-              </h2>
-              <div className="space-y-8 text-textMuted leading-relaxed">
-                <p>
-                  Moneyfest was built to solve the operational bottlenecks of manual micro-lending. By integrating AI verification and a robust PostgreSQL core, the system transforms a complex financial workflow into a hands-free automated engine.
-                </p>
-                <ul className="space-y-6">
-                  <li className="flex gap-4">
-                    <span className="text-accentMint font-mono text-xs mt-1">01</span>
-                    <div>
-                      <h4 className="text-textPrimary font-mono text-sm uppercase mb-1">AI Audit Engine</h4>
-                      <p className="text-sm">Utilizes Groq Vision for real-time receipt verification, reducing administrative overhead by 90% and ensuring 100% data integrity.</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-4">
-                    <span className="text-accentMint font-mono text-xs mt-1">02</span>
-                    <div>
-                      <h4 className="text-textPrimary font-mono text-sm uppercase mb-1">Risk-Based Scoring</h4>
-                      <p className="text-sm">Automated credit scoring algorithm that adjusts borrower limits based on repayment performance and tenure, protecting capital liquidity.</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-4">
-                    <span className="text-accentMint font-mono text-xs mt-1">03</span>
-                    <div>
-                      <h4 className="text-textPrimary font-mono text-sm uppercase mb-1">Forecasting Console</h4>
-                      <p className="text-sm">Custom-built financial projection engine that simulates ROI and capital growth across multi-year cycles with reinvestment toggles.</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="reveal-item relative aspect-square lg:aspect-video rounded-2xl overflow-hidden border border-border bg-[#060D14] p-8">
-              {/* Terminal View of Schema */}
-              <div className="font-mono text-[10px] md:text-xs text-accentMint/80 leading-relaxed overflow-auto h-full scrollbar-hide">
-                <div className="mb-4 opacity-40 italic">// SUPABASE_RELATIONAL_SCHEMA_V1.0</div>
-                <div className="text-textPrimary font-bold mb-2 uppercase tracking-widest text-[11px] md:text-[13px] border-b border-accentMint/20 pb-2">Central_Control_Database</div>
-                <div className="space-y-2 mt-4">
-                  <div className="flex justify-between border-b border-border/50 py-1">
-                    <span>CREATE TABLE public.loans (</span>
-                    <span className="text-textDim">[OK]</span>
+            <div className="reveal-item order-2 lg:order-1 relative aspect-video bg-bgSecondary border border-border rounded-2xl p-8 flex flex-col justify-center">
+               <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                     <div className="w-4 h-4 rounded-full border-2 border-accentMint" />
+                     <div className="h-[1px] w-full bg-border" />
+                     <div className="w-4 h-4 rounded-full bg-accentMint" />
                   </div>
-                  <div className="pl-4 py-1 flex justify-between">
-                    <span>borrower_id UUID,</span>
-                    <span className="text-textDim">FK</span>
+                  <div className="flex justify-between font-mono text-[9px] text-textDim uppercase tracking-widest">
+                     <span>Borrower_Upload</span>
+                     <span>Inference_Engine</span>
+                     <span>DB_Ledger</span>
                   </div>
-                  <div className="pl-4 py-1 flex justify-between">
-                    <span>loan_amount NUMERIC,</span>
-                    <span className="text-textDim">FLT</span>
-                  </div>
-                  <div className="pl-4 py-1 flex justify-between">
-                    <span>risk_score TEXT,</span>
-                    <span className="text-textDim">STR</span>
-                  </div>
-                  <div className="pl-4 py-1 flex justify-between">
-                    <span>lifecycle_status STATUS,</span>
-                    <span className="text-textDim">ENUM</span>
-                  </div>
-                  <div className="py-1">);</div>
-                  <div className="h-4" />
-                  <div className="flex justify-between border-b border-border/50 py-1">
-                    <span>CREATE TABLE audit_logs (</span>
-                    <span className="text-textDim">[OK]</span>
-                  </div>
-                  <div className="pl-4 py-1">action_type ACTION,</div>
-                  <div className="pl-4 py-1">system_module MOD,</div>
-                  <div className="py-1">);</div>
-                </div>
-                {/* Visual Data Overlay */}
-                <div className="absolute bottom-12 right-12 w-32 h-32 md:w-48 md:h-48 rounded-full border-[10px] border-accentMint/20 flex items-center justify-center animate-pulse">
-                   <div className="text-center font-mono">
-                      <div className="text-[10px] text-textMuted">ROI_PROJECTED</div>
-                      <div className="text-xl md:text-3xl text-accentMint font-bold">14.2%</div>
-                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Feature Grids */}
-      <section className="py-32 bg-bgSecondary border-y border-border reveal-container">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              {
-                title: "Admin Dashboard",
-                desc: "Real-time liquidity monitoring, capital growth tracking, and automated cutoff processing.",
-                tag: "CONTROL_HUB"
-              },
-              {
-                title: "Borrower Portal",
-                desc: "Personalized access for real-time balances, installment schedules, and one-click proof uploads.",
-                tag: "FRONTEND_EXPERIENCE"
-              },
-              {
-                title: "Audit History",
-                desc: "Comprehensive immutable logs of every system action for full financial accountability.",
-                tag: "INTEGRITY_LOG"
-              }
-            ].map((feature, i) => (
-              <div key={i} className="reveal-item bg-bgPrimary p-8 border border-border group hover:border-accentMint/30 transition-colors">
-                <div className="font-mono text-[10px] text-accentMint mb-6 tracking-widest">{feature.tag}</div>
-                <h3 className="text-xl font-light mb-4 uppercase italic tracking-tight">{feature.title}</h3>
-                <p className="text-sm text-textMuted leading-relaxed">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-32 reveal-container">
-         <div className="container mx-auto px-6 text-center">
-            <div className="reveal-item max-w-2xl mx-auto">
-               <div className="font-mono text-xs text-accentMint mb-6 tracking-[0.3em] uppercase">SYSTEM_STATE</div>
-               <h2 className="text-4xl md:text-6xl font-light mb-12 tracking-tighter">Ready for <span className="text-accentMint italic">Production</span></h2>
-               <p className="text-textMuted leading-relaxed mb-12">
-                  Moneyfest is currently in production, managing high-volume loan cycles with zero manual intervention needed for verification. It serves as the primary case study for end-to-end full-stack automation.
-               </p>
-               <div className="flex justify-center flex-wrap gap-8">
-                  <div className="text-center">
-                     <div className="text-4xl font-bold text-accentMint mb-2 tracking-tighter">100%</div>
-                     <div className="font-mono text-[10px] text-textDim uppercase tracking-widest">Automation_Level</div>
-                  </div>
-                  <div className="text-center">
-                     <div className="text-4xl font-bold text-accentMint mb-2 tracking-tighter">&lt; 1s</div>
-                     <div className="font-mono text-[10px] text-textDim uppercase tracking-widest">Audit_Latency</div>
-                  </div>
-                  <div className="text-center">
-                     <div className="text-4xl font-bold text-accentMint mb-2 tracking-tighter">Zero</div>
-                     <div className="font-mono text-[10px] text-textDim uppercase tracking-widest">Manual_Review</div>
-                  </div>
+                  <p className="text-xs text-textMuted italic pt-4">
+                    The horizontal pipeline ensures that no payment is processed without a cryptographic cross-check against the AI's JSON output.
+                  </p>
                </div>
             </div>
-         </div>
+
+            <div className="reveal-item order-1 lg:order-2">
+              <h2 className="text-3xl font-light tracking-tight mb-8 uppercase italic">Technical <span className="text-accentMint tracking-normal not-italic underline decoration-accentMint/30">Architecture</span></h2>
+              <p className="text-textMuted leading-relaxed mb-6">
+                The implementation leverages **Next.js Edge Functions** to handle high-speed API calls to Groq, ensuring the user experience remains fluid even during peak collection days (5th and 20th of each month). 
+              </p>
+              <p className="text-textMuted leading-relaxed">
+                By offloading the "Visual Audit" to an LLM, the platform eliminates the need for 24/7 human supervision, allowing the system to scale predictably with the borrower base.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
